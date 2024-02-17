@@ -29,6 +29,7 @@ data "aws_autoscaling_groups" "node_groups" {
     name   = "tag:eks:nodegroup-name"
     values = [data.aws_eks_node_group.managed_nodes.node_group_name]
   }
+  depends_on = [ aws_eks_node_group.managed-nodes ]
 }
 
 resource "aws_autoscaling_group_tag" "nodegroup1" {

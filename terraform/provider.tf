@@ -14,11 +14,11 @@ terraform {
 
 provider "aws" {
    region = "us-east-1"
-  #  assume_role {
-  #   role_arn     = "use your terraform role arn if you have one "
-  #   # session_name = "SESSION_NAME"
-  #   external_id  = "external id if you have set"
-  # }
+   assume_role {
+    role_arn     = var.terraform_assume_role
+    # session_name = "SESSION_NAME"
+    external_id  = var.external_id
+  }
 }
 
 data aws_eks_cluster cluster {
@@ -38,4 +38,12 @@ provider "helm" {
 }
 variable "cluster_name" {
   default = "demo"
+}
+
+variable "terraform_assume_role" {
+  type = string
+}
+
+variable "external_id" {
+  type = string
 }
