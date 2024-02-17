@@ -19,9 +19,21 @@ locals {
   
 }
 
+data "aws_eks_node_group" "managed_nodes" {
+  cluster_name    = var.cluster_name
+  node_group_name = aws_eks_node_group.managed-nodes.node_group_name
+}
+
+data "aws_autoscaling_groups" "node_groups" {
+  filter {
+    name   = "tag:eks:nodegroup-name"
+    values = [data.aws_eks_node_group.managed_nodes.node_group_name]
+  }
+}
+
 resource "aws_autoscaling_group_tag" "nodegroup1" {
   for_each               = local.eks_asg_tag_list_nodegroup1
-  autoscaling_group_name = "eks-managed-nodes-42c6d2e2-3ea7-4544-29df-c97735c39f49" // need to fix this to variables
+  autoscaling_group_name = data.aws_autoscaling_groups.node_groups.names[0]
 
   tag {
     key                 = each.key
