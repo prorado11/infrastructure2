@@ -15,9 +15,9 @@ terraform {
 provider "aws" {
    region = "us-east-1"
    assume_role {
-    role_arn     = var.terraform_assume_role
-    # session_name = "SESSION_NAME"
-    external_id  = var.external_id
+    role_arn     = var.terraform_assume_role // optional
+    session_name = "Terraform"
+    external_id  = var.external_id // optional
   }
 }
 

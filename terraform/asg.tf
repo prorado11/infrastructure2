@@ -19,6 +19,13 @@ locals {
   
 }
 
+/*
+The aws_eks_node_group data source in Terraform doesn't directly expose the autoscaling group name. 
+Instead, it provides information about the node group itself.
+If you want to retrieve the autoscaling group name associated with the managed node group, you'll need to use 
+the aws_autoscaling_group data source along with filtering by tags.
+*/
+
 data "aws_eks_node_group" "managed_nodes" {
   cluster_name    = var.cluster_name
   node_group_name = aws_eks_node_group.managed-nodes.node_group_name
